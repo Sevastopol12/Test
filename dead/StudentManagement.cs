@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text.Json;
@@ -25,8 +25,19 @@ namespace projekt
     // Lớp StudentManagementSystem (Quản lý sinh viên)
     public class StudentManagementSystem : IStudentManagement
     {
-        private Dictionary<string, Student> studentDictionary = new Dictionary<string, Student>();
+        //Add student dictionary
+        private static Dictionary<string, Student> AddStudent()
+        {
+            Dictionary<string, Student> studentDictionary = new Dictionary<string, Student>();
+            foreach (Student student in Init.students)
+            {
+                studentDictionary.Add(student.Id, student);
+            }
+            return studentDictionary;
+        }
 
+        private Dictionary<string, Student> studentDictionary = AddStudent();
+        
         // Sự kiện cho việc thêm và xóa sinh viên
         public event StudentEventHandler StudentAdded;
         public event StudentEventHandler StudentRemoved;
@@ -90,7 +101,7 @@ namespace projekt
         }
 
         // Tìm kiếm sinh viên theo ID
-        private Student FindStudentByID(string studentID)
+        public Student FindStudentByID(string studentID)
         {
             if (studentDictionary.ContainsKey(studentID))
             {
@@ -123,7 +134,8 @@ namespace projekt
             return result;
         }
 
-               // Sort students by Name
+
+        // Sort students by Name
         public void SortStudentsByName()
         {
             List<Student> studentsList = new List<Student>(studentDictionary.Values);
