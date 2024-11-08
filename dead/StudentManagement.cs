@@ -123,28 +123,52 @@ namespace projekt
             return result;
         }
 
-        // Sắp xếp sinh viên theo tên
+               // Sort students by Name
         public void SortStudentsByName()
         {
-            var studentsList = new List<Student>(studentDictionary.Values);
-            studentsList.Sort((x, y) => string.Compare(x.Name, y.Name, StringComparison.OrdinalIgnoreCase));
+            List<Student> studentsList = new List<Student>(studentDictionary.Values);
+
+            Comparison<Student> nameComparison = CompareByName;
+            studentsList.Sort(nameComparison);
+
             Console.WriteLine("Đã sắp xếp danh sách sinh viên theo tên.");
         }
 
-        // Sắp xếp sinh viên theo ĐRL
+        private int CompareByName(Student x, Student y)
+        {
+            return string.Compare(x.Name, y.Name, StringComparison.OrdinalIgnoreCase);
+        }
+
+        // Sort students by ĐRL
         public void SortStudentsByDRL()
         {
-            var studentsList = new List<Student>(studentDictionary.Values);
-            studentsList.Sort((x, y) => y.ĐRL.CompareTo(x.ĐRL)); // Sắp xếp giảm dần theo ĐRL
+            List<Student> studentsList = new List<Student>(studentDictionary.Values);
+
+            Comparison<Student> drlComparison = CompareByDRL;
+            studentsList.Sort(drlComparison);
+
             Console.WriteLine("Đã sắp xếp danh sách sinh viên theo ĐRL.");
         }
 
-        // Sắp xếp sinh viên theo GPA
+        private int CompareByDRL(Student x, Student y)
+        {
+            return y.ĐRL.CompareTo(x.ĐRL); // Sort in descending order
+        }
+
+        // Sort students by GPA
         public void SortStudentsByGPA()
         {
-            var studentsList = new List<Student>(studentDictionary.Values);
-            studentsList.Sort((x, y) => y.GPA.CompareTo(x.GPA)); // Sắp xếp giảm dần theo GPA
+            List<Student> studentsList = new List<Student>(studentDictionary.Values);
+
+            Comparison<Student> gpaComparison = CompareByGPA;
+            studentsList.Sort(gpaComparison);
+
             Console.WriteLine("Đã sắp xếp danh sách sinh viên theo GPA.");
+        }
+
+        private int CompareByGPA(Student x, Student y)
+        {
+            return y.GPA.CompareTo(x.GPA); // Sort in descending order
         }
     }
 }
